@@ -23,6 +23,7 @@ android {
 }
 
 dependencies {
+    implementation 'com.jakewharton.timber:timber:4.7.0'
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation"org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     implementation 'com.android.support:appcompat-v7:27.1.1'
@@ -30,4 +31,22 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+}
+
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "org.jetbrains.dokka:dokka-android-gradle-plugin:0.9.17"
+    }
+}
+
+apply plugin: "org.jetbrains.dokka-android"
+
+dokka {
+    outputFormat = 'html'
+    outputDirectory = "$buildDir/javadoc"
 }
