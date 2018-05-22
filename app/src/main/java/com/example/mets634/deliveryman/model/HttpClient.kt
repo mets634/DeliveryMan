@@ -6,7 +6,15 @@ import java.net.HttpURLConnection
 import java.net.HttpURLConnection.HTTP_OK
 import java.net.URL
 
+/**
+ * A class to make GET requests through HTTP protocol.
+ */
 class HttpClient {
+
+    /**
+     * Function to make GET request to given URL.
+     * @param url URL to request.
+     */
     fun sendGet(url : String) : String {
         Timber.d("Sending GET request to URL: $url")
         val obj = URL(url)
