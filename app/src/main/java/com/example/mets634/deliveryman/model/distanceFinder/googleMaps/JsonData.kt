@@ -1,4 +1,4 @@
-package com.example.mets634.deliveryman.model.distanceFinder
+package com.example.mets634.deliveryman.model.distanceFinder.googleMaps
 
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
@@ -12,7 +12,7 @@ import com.google.gson.annotations.SerializedName
 const val ORIGINS_FIELD = "origin_addresses"
 const val DESTINATIONS_FIELD = "destination_addresses"
 const val ROWS_FIELD = "rows"
-const val ELEMENTS_FIELD = "element"
+const val ELEMENTS_FIELD = "elements"
 const val DURATION_FIELD = "duration"
 const val DISTANCE_FIELD = "distance"
 const val VALUE_FIELD = "value"
@@ -49,4 +49,5 @@ data class GoogleMapsResponse(
  * @param response The JSON to parse.
  * @return Instance of GoogleMapsResponse with data in it.
  */
-fun parseGoogleResponse(response : String) = Gson().fromJson(response, GoogleMapsResponse::class.java)
+fun parseResponse(response : String) : GoogleMapsResponse =
+        Gson().fromJson(response, GoogleMapsResponse::class.java)

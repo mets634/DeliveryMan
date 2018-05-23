@@ -1,17 +1,16 @@
-package com.example.mets634.deliveryman.model.distanceFinder
+package com.example.mets634.deliveryman.model.distanceFinder.googleMaps
 
 import android.net.Uri
 import com.example.mets634.deliveryman.model.TravelMode
-import org.json.JSONArray
-import org.json.JSONObject
+import com.example.mets634.deliveryman.model.distanceFinder.DistanceFinder
+import com.example.mets634.deliveryman.model.distanceFinder.DistanceMatrix
 import timber.log.Timber
-import java.lang.Thread.yield
 
 /**
  * Class that calculates distances using the Google Maps API.
  * @see "https://developers.google.com/maps/documentation/distance-matrix/intro"
  */
-object GoogleMapsDistanceFinder : DistanceFinder() {
+object GoogleMapsDistanceFinder : DistanceFinder {
 
     const val BASE_URL = "http://maps.googleapis.com/maps/api/distancematrix/outputFormat?json?"
     const val ORIGINS_PARAMETER = "origins"
@@ -19,7 +18,7 @@ object GoogleMapsDistanceFinder : DistanceFinder() {
     const val MODE_PARAMETER = "mode"
 
     /**
-     * Implementation of DistanceFinder.calcDistance
+     * Implementation of GoogleMapsDistanceFinder.calcDistance
      * @see DistanceFinder.calcDistance
      */
     override fun calcDistance(
@@ -74,9 +73,14 @@ object GoogleMapsDistanceFinder : DistanceFinder() {
      * @param response Google Maps API response.
      * @return DistanceMatrix of given JSON.
      */
-    private fun buildDistanceMatrix(response : String) : Int {
-        val parsedResponse = parseGoogleResponse(response)
+    private fun buildDistanceMatrix(response : String) : DistanceMatrix {
+        val parsedResponse = parseResponse(response)
 
-        return 0
+        val keys = parsedResponse.originAddresses.zip(parsedResponse.destinationAddresses)
+        val values = parsedResponse.rows // get list of all rows
+                .flatMap { it.elements } // get list of all elements
+                .map { it.duration.value } // get durations of each element
+
+        return keys.zip(values).toMap() // combine keys and values to DistanceMatrix
     }
 }

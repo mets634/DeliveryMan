@@ -1,10 +1,17 @@
 package com.example.mets634.deliveryman.model.distanceFinder
 
 import com.example.mets634.deliveryman.model.TravelMode
+import com.example.mets634.deliveryman.model.distanceFinder.googleMaps.GoogleMapsDistanceFinder
 
 
 /**
- * Implementations of DistanceFinder available.
+ * Type representing a distance matrix of a graph.
+ * Maps a pair of locations to the corresponding cost.
+ */
+typealias DistanceMatrix = Map<Pair<String, String>, Int>
+
+/**
+ * Implementations of GoogleMapsDistanceFinder available.
  */
 enum class DistanceFinderImp {
     GoogleMaps
@@ -18,16 +25,16 @@ enum class DistanceFinderImp {
 interface DistanceFinder {
 
     /**
-     * DistanceFinder factory.
+     * GoogleMapsDistanceFinder factory.
      */
     companion object Factory {
 
         /**
-         * Factory function. Return instance of wanted DistanceFinder
-         * @param distanceFinderImp Requested implementation of DistanceFinder
-         * @return Instance of DistanceFinder requested.
+         * Factory function. Return instance of wanted GoogleMapsDistanceFinder
+         * @param distanceFinderImp Requested implementation of GoogleMapsDistanceFinder
+         * @return Instance of GoogleMapsDistanceFinder requested.
          */
-        fun getInstance(distanceFinderImp : DistanceFinderImp) : DistanceFinder {
+        fun getInstance(distanceFinderImp : DistanceFinderImp) : com.example.mets634.deliveryman.model.distanceFinder.DistanceFinder {
             when (distanceFinderImp) {
                 DistanceFinderImp.GoogleMaps -> return GoogleMapsDistanceFinder
                 else -> throw Exception("Unidentified DistanceFinderImp")

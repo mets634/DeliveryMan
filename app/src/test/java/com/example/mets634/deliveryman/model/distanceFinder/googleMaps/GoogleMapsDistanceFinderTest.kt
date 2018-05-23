@@ -1,7 +1,5 @@
-package com.example.mets634.deliveryman.model
+package com.example.mets634.deliveryman.model.distanceFinder.googleMaps
 
-import org.junit.After
-import org.junit.Before
 import org.junit.Test
 
 import org.junit.Assert.*

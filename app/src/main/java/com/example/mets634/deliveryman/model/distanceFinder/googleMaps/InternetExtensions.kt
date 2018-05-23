@@ -1,4 +1,4 @@
-package com.example.mets634.deliveryman.model.distanceFinder
+package com.example.mets634.deliveryman.model.distanceFinder.googleMaps
 
 import android.net.Uri
 import timber.log.Timber
@@ -29,7 +29,7 @@ fun URL.sendGet() : String {
  */
 class ToUrl {
     operator fun getValue(thisRef: Any?, property: KProperty<*>): URL {
-        return URL(this.toString())
+        return URL(thisRef.toString())
     }
 }
 
