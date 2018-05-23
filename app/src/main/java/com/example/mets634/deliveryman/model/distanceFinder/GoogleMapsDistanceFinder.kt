@@ -1,25 +1,25 @@
-package com.example.mets634.deliveryman.model
+package com.example.mets634.deliveryman.model.distanceFinder
 
 import android.net.Uri
-import android.util.JsonReader
+import com.example.mets634.deliveryman.model.TravelMode
+import org.json.JSONArray
 import org.json.JSONObject
 import timber.log.Timber
+import java.lang.Thread.yield
 
 /**
  * Class that calculates distances using the Google Maps API.
  * @see "https://developers.google.com/maps/documentation/distance-matrix/intro"
  */
-class GoogleMapsDistanceFinder : DistanceFinder {
+object GoogleMapsDistanceFinder : DistanceFinder() {
 
-    private val BASE_URL = "http://maps.googleapis.com/maps/api/distancematrix/outputFormat?json?"
-    private val ORIGINS_PARAMETER = "origins"
-    private val DESTINATIONS_PARAMETER = "destinations"
-    private val MODE_PARAMETER = "mode"
-
-    private val ORIGINS_FIELD = "origin_addresses"
-    private val DESTINATIONS_FIELD = "destination_addresses"
+    const val BASE_URL = "http://maps.googleapis.com/maps/api/distancematrix/outputFormat?json?"
+    const val ORIGINS_PARAMETER = "origins"
+    const val DESTINATIONS_PARAMETER = "destinations"
+    const val MODE_PARAMETER = "mode"
 
     /**
+     * Implementation of DistanceFinder.calcDistance
      * @see DistanceFinder.calcDistance
      */
     override fun calcDistance(
@@ -34,7 +34,8 @@ class GoogleMapsDistanceFinder : DistanceFinder {
             |Destinations=$destinations
             |Mode=$travelMode""".trimMargin())
 
-        val distanceMatrixJson = queryGoogleMaps(travelMode, origins, destinations)
+        val distanceMatrixJson = queryGoogleMaps(travelMode, origins, destinations) // query matrix
+        return buildDistanceMatrix(distanceMatrixJson) // parse JSON
     }
 
     /**
@@ -55,16 +56,16 @@ class GoogleMapsDistanceFinder : DistanceFinder {
         val destinationString = destinations.joinToString(separator = "|")
 
         // construct url
-        val url = Uri.parse(BASE_URL)
+        val uri = Uri.parse(BASE_URL)
                 .buildUpon()
                 // add query parameters
                 .appendQueryParameter(ORIGINS_PARAMETER, originsString)
                 .appendQueryParameter(DESTINATIONS_PARAMETER, destinationString)
                 .appendQueryParameter(MODE_PARAMETER, travelMode.name)
-                .build() // make URI
+                .build()
 
         // send request
-        return HttpClient().sendGet(url.toString())
+        return uri.URL.sendGet()
     }
 
     /**
@@ -73,11 +74,9 @@ class GoogleMapsDistanceFinder : DistanceFinder {
      * @param response Google Maps API response.
      * @return DistanceMatrix of given JSON.
      */
-    private fun parseGoogleResponse(response : String) : DistanceMatrix {
-        val data = JSONObject(response)
+    private fun buildDistanceMatrix(response : String) : Int {
+        val parsedResponse = parseGoogleResponse(response)
 
-        val origins = data[ORIGINS_FIELD]
-        val destinations = data[DESTINATIONS_FIELD]
-        // TODO: Not done yet
+        return 0
     }
 }
