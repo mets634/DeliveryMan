@@ -48,8 +48,9 @@ interface DistanceFinder {
      * @param addresses Pairs of addresses to find distance to each other.
      * @return A map from pairs of locations to the distance from each other.
      */
-    fun calcDistance(
+    fun calcDistanceMatrix(
             travelMode: TravelMode = TravelMode.Driving,
-            vararg addresses : Pair<String, String>
+            origins: List<String>,
+            destinations: List<String>
     ) : DistanceMatrix
 }

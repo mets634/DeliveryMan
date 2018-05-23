@@ -10,7 +10,7 @@ import timber.log.Timber
  * Class that calculates distances using the Google Maps API.
  * @see "https://developers.google.com/maps/documentation/distance-matrix/intro"
  */
-object GoogleMapsDistanceFinder : DistanceFinder {
+open object GoogleMapsDistanceFinder : DistanceFinder {
 
     const val BASE_URL = "http://maps.googleapis.com/maps/api/distancematrix/outputFormat?json?"
     const val ORIGINS_PARAMETER = "origins"
@@ -21,12 +21,11 @@ object GoogleMapsDistanceFinder : DistanceFinder {
      * Implementation of GoogleMapsDistanceFinder.calcDistance
      * @see DistanceFinder.calcDistance
      */
-    override fun calcDistance(
+    override fun calcDistanceMatrix(
             travelMode: TravelMode,
-            vararg addresses : Pair<String, String>
+            origins: List<String>,
+            destinations: List<String>
     ) : DistanceMatrix {
-
-        val (origins, destinations) = addresses.unzip()
 
         Timber.d("""Calculating distance-matrix, with Google Maps, for:
             |Origins=$origins
