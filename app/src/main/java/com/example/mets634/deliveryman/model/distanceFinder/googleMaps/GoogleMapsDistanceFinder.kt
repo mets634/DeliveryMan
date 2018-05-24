@@ -10,9 +10,9 @@ import timber.log.Timber
  * Class that calculates distances using the Google Maps API.
  * @see "https://developers.google.com/maps/documentation/distance-matrix/intro"
  */
-open object GoogleMapsDistanceFinder : DistanceFinder {
+object GoogleMapsDistanceFinder : DistanceFinder {
 
-    const val BASE_URL = "http://maps.googleapis.com/maps/api/distancematrix/outputFormat?json?"
+    const val BASE_URL = "http://maps.googleapis.com/maps/api/distancematrix/json?"
     const val ORIGINS_PARAMETER = "origins"
     const val DESTINATIONS_PARAMETER = "destinations"
     const val MODE_PARAMETER = "mode"
@@ -62,8 +62,9 @@ open object GoogleMapsDistanceFinder : DistanceFinder {
                 .appendQueryParameter(MODE_PARAMETER, travelMode.name)
                 .build()
 
-        // send request
-        return uri.URL.sendGet()
+        // decode '|' and send request
+        return uri.toString().replace(oldValue = "%7C", newValue = "|", ignoreCase = true)
+                .URL.sendGet()
     }
 
     /**
@@ -75,11 +76,11 @@ open object GoogleMapsDistanceFinder : DistanceFinder {
     private fun buildDistanceMatrix(response : String) : DistanceMatrix {
         val parsedResponse = parseResponse(response)
 
-        val keys = parsedResponse.originAddresses.zip(parsedResponse.destinationAddresses)
+        val keys = parsedResponse.originAddresses.product(parsedResponse.destinationAddresses)
         val values = parsedResponse.rows // get list of all rows
                 .flatMap { it.elements } // get list of all elements
                 .map { it.duration.value } // get durations of each element
 
-        return keys.zip(values).toMap() // combine keys and values to DistanceMatrix
+        return keys.zip(values).toMap()
     }
 }

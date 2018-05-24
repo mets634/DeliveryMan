@@ -34,11 +34,22 @@ class ToUrl {
 }
 
 /**
+ * Extension property for String to get String as URL.
+ */
+val String.URL: URL by ToUrl()
+
+/**
  * Extension property for Uri to get Uri as URL.
  */
 val Uri.URL: URL by ToUrl()
 
 /**
- * Extension property for String to get String as URL.
+ * Extension method for Collection to get Cartesian-product
+ * from two collections.
+ * @param T This collection's type.
+ * @param K Other's collection type.
+ * @param other Other collection
+ * @return Collection containing product of two collections.
  */
-val String.URL: URL by ToUrl()
+fun <T, K> Collection<T>.product(other : Collection<K>) =
+    this.map { outer -> other.map { inner -> Pair(outer, inner) } }.flatten()
