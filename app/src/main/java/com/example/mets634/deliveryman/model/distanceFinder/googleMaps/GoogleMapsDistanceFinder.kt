@@ -1,9 +1,9 @@
 package com.example.mets634.deliveryman.model.distanceFinder.googleMaps
 
 import android.net.Uri
-import com.example.mets634.deliveryman.model.TravelMode
+import com.example.mets634.deliveryman.model.DistanceMatrix
+import com.example.mets634.deliveryman.model.distanceFinder.TravelMode
 import com.example.mets634.deliveryman.model.distanceFinder.DistanceFinder
-import com.example.mets634.deliveryman.model.distanceFinder.DistanceMatrix
 import timber.log.Timber
 
 /**
@@ -19,13 +19,13 @@ object GoogleMapsDistanceFinder : DistanceFinder {
 
     /**
      * Implementation of GoogleMapsDistanceFinder.calcDistance
-     * @see DistanceFinder.calcDistance
+     * @see DistanceFinder.calcDistanceMatrix
      */
     override fun calcDistanceMatrix(
             travelMode: TravelMode,
             origins: List<String>,
             destinations: List<String>
-    ) : DistanceMatrix {
+    ) : DistanceMatrix<String> {
 
         Timber.d("""Calculating distance-matrix, with Google Maps, for:
             |Origins=$origins
@@ -73,7 +73,7 @@ object GoogleMapsDistanceFinder : DistanceFinder {
      * @param response Google Maps API response.
      * @return DistanceMatrix of given JSON.
      */
-    private fun buildDistanceMatrix(response : String) : DistanceMatrix {
+    private fun buildDistanceMatrix(response : String) : DistanceMatrix<String> {
         val parsedResponse = parseResponse(response)
 
         val keys = parsedResponse.originAddresses.product(parsedResponse.destinationAddresses)
