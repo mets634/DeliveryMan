@@ -1,6 +1,6 @@
 package com.example.mets634.deliveryman.model.distanceFinder
 
-import com.example.mets634.deliveryman.model.DistanceMatrix
+import com.example.mets634.deliveryman.model.CostMatrix
 import com.example.mets634.deliveryman.model.distanceFinder.googleMaps.GoogleMapsDistanceFinder
 
 
@@ -38,14 +38,17 @@ interface DistanceFinder {
 
     /**
      * Function to return the distance between addresses.
+     * @param distanceType distance or duration.
      * @param travelMode Instance of TravelMode.
      * @param origins List of origin addresses
      * @param destinations List of destination addresses.
      * @return A map from pairs of locations to the distance from each other.
      */
     fun calcDistanceMatrix(
+            distanceType: DistanceType,
             travelMode: TravelMode = TravelMode.Driving,
             origins: List<String>,
             destinations: List<String>
-    ) : DistanceMatrix<String>
+    ) : CostMatrix<String>
+
 }

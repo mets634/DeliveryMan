@@ -1,9 +1,11 @@
 package com.example.mets634.deliveryman.model.distanceFinder.googleMaps
 
 import android.net.Uri
-import com.example.mets634.deliveryman.model.DistanceMatrix
+import com.example.mets634.deliveryman.model.CostMatrix
 import com.example.mets634.deliveryman.model.distanceFinder.TravelMode
 import com.example.mets634.deliveryman.model.distanceFinder.DistanceFinder
+import com.example.mets634.deliveryman.model.distanceFinder.DistanceType
+import com.example.mets634.deliveryman.model.product
 import timber.log.Timber
 
 /**
@@ -22,10 +24,11 @@ object GoogleMapsDistanceFinder : DistanceFinder {
      * @see DistanceFinder.calcDistanceMatrix
      */
     override fun calcDistanceMatrix(
+            distanceType: DistanceType,
             travelMode: TravelMode,
             origins: List<String>,
             destinations: List<String>
-    ) : DistanceMatrix<String> {
+    ) : CostMatrix<String> {
 
         Timber.d("""Calculating distance-matrix, with Google Maps, for:
             |Origins=$origins
@@ -33,7 +36,7 @@ object GoogleMapsDistanceFinder : DistanceFinder {
             |Mode=$travelMode""".trimMargin())
 
         val distanceMatrixJson = queryGoogleMaps(travelMode, origins, destinations) // query matrix
-        return buildDistanceMatrix(distanceMatrixJson) // parse JSON
+        return buildDistanceMatrix(distanceMatrixJson, distanceType) // parse JSON
     }
 
     /**
@@ -69,18 +72,24 @@ object GoogleMapsDistanceFinder : DistanceFinder {
 
     /**
      * A function to parse JSON string returned from Google Maps API
-     * to a DistanceMatrix.
+     * to a CostMatrix.
+     * @param distanceType duration of distance.
      * @param response Google Maps API response.
-     * @return DistanceMatrix of given JSON.
+     * @return CostMatrix of given JSON.
      */
-    private fun buildDistanceMatrix(response : String) : DistanceMatrix<String> {
+    private fun buildDistanceMatrix(response : String, distanceType: DistanceType) : CostMatrix<String> {
         val parsedResponse = parseResponse(response)
 
         val keys = parsedResponse.originAddresses.product(parsedResponse.destinationAddresses)
         val values = parsedResponse.rows // get list of all rows
                 .flatMap { it.elements } // get list of all elements
-                .map { it.duration.value } // get durations of each element
 
-        return keys.zip(values).toMap()
+                // get duration/distance of each element
+                .map { when(distanceType) {
+                    DistanceType.Distance -> it.distance.value
+                    DistanceType.Duration -> it.duration.value
+                }}
+
+        return CostMatrix(keys.zip(values).toMap())
     }
 }

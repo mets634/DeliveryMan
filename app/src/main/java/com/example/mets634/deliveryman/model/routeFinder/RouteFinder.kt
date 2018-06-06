@@ -1,8 +1,10 @@
 package com.example.mets634.deliveryman.model.routeFinder
 
+import com.example.mets634.deliveryman.model.routeFinder.tspSolver.BruteForcer
+
 
 enum class RouteFinderImp {
-    Bea
+    BruteForce, BranchAndBound
 }
 
 /**
@@ -22,8 +24,7 @@ interface RouteFinder<in T> {
          * @return Instance of RouteFinder requested.
          */
         fun <T> getInstance(routeFinderImp : RouteFinderImp) : RouteFinder<T> {
-            when (routeFinderImp) {
-                RouteFinderImp.Bea -> return BeaRouterFinder()
+            return when (routeFinderImp) {
                 else -> throw Exception("Unidentified RouteFinderImp")
             }
         }
@@ -33,5 +34,4 @@ interface RouteFinder<in T> {
      * Function to calculate best route to take for given addresses.
      * @param nodes Nodes to find route for.
      */
-    fun findRoute(vararg nodes : T) : List<String>
-}
+    fun findRoute(vararg nodes : T) : List<String>}

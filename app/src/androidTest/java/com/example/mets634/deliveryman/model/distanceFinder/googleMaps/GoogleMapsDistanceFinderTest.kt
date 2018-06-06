@@ -1,6 +1,7 @@
 package com.example.mets634.deliveryman.model.distanceFinder.googleMaps
 
 import android.support.test.filters.SmallTest
+import com.example.mets634.deliveryman.model.distanceFinder.DistanceType
 import com.example.mets634.deliveryman.model.distanceFinder.TravelMode
 import junit.framework.Assert
 import org.junit.Test
@@ -34,6 +35,6 @@ class GoogleMapsDistanceFinderTest {
     @SmallTest
     fun calcDistanceMatrix() {
         Assert.assertEquals(cmpMatrixCmp1,
-                GoogleMapsDistanceFinder.calcDistanceMatrix(TravelMode.Walking, origins1, destinations1))
+                GoogleMapsDistanceFinder.calcDistanceMatrix(DistanceType.Distance, TravelMode.Walking, origins1, destinations1))
     }
 }
