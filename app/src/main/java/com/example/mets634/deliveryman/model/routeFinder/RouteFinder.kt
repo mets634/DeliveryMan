@@ -1,6 +1,7 @@
 package com.example.mets634.deliveryman.model.routeFinder
 
-import com.example.mets634.deliveryman.model.routeFinder.tspSolver.BruteForcer
+import com.example.mets634.deliveryman.model.Path
+import com.example.mets634.deliveryman.model.routeFinder.tspSolver.staticSolver.BruteForcer
 
 
 enum class RouteFinderImp {
@@ -11,8 +12,9 @@ enum class RouteFinderImp {
  * Abstract class to find best route for given list of addresses.
  * @param T Node type.
  */
-interface RouteFinder<in T> {
+interface RouteFinder<T> {
 
+    /*
     /**
      * RouteFinder factory.
      */
@@ -29,9 +31,10 @@ interface RouteFinder<in T> {
             }
         }
     }
-
+*/
     /**
      * Function to calculate best route to take for given addresses.
      * @param nodes Nodes to find route for.
      */
-    fun findRoute(vararg nodes : T) : List<String>}
+    fun findRoute(vararg nodes : T, root : T) : Path<T>
+}

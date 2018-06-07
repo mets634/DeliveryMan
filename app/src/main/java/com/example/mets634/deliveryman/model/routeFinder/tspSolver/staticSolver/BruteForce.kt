@@ -1,10 +1,16 @@
-package com.example.mets634.deliveryman.model.routeFinder.tspSolver
+package com.example.mets634.deliveryman.model.routeFinder.tspSolver.staticSolver
 
+import com.example.mets634.deliveryman.model.Cost
 import com.example.mets634.deliveryman.model.CostMatrix
 import com.example.mets634.deliveryman.model.Path
+import com.example.mets634.deliveryman.model.routeFinder.tspSolver.TspSolver
 
 
-class BruteForcer<out T>(private val g : CostMatrix<T>, private val root : T) : TspSolver<T>() {
+/**
+ * A class to brute force the solution to static TSP problem.
+ */
+class BruteForcer<T>(g : CostMatrix<T>, root : T) : TspSolver<T>(g, root) {
+
     /**
      * A function to brute force the result for TSP.
      * @param path The current path created.
@@ -14,8 +20,8 @@ class BruteForcer<out T>(private val g : CostMatrix<T>, private val root : T) : 
      */
     private fun bruteForce(
             path : Path<T> = emptyList(),
-            cost : Int = 0,
-            curr : T = root) : Pair<Path<T>, Int> {
+            cost : Cost = 0,
+            curr : T = root) : Pair<Path<T>, Cost> {
         // try each non-used node to find best path
         val newPath = path.plus(curr)
         val bestPath = (g.nodes - newPath) // for each unexplored node
@@ -34,6 +40,6 @@ class BruteForcer<out T>(private val g : CostMatrix<T>, private val root : T) : 
     }
 
     // WARNING: May take a lot of time to run!!!
-    override val path = bruteForce().first
+    override val path by lazy { bruteForce().first }
 }
 

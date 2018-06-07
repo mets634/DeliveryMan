@@ -1,10 +1,12 @@
 package com.example.mets634.deliveryman.model
 
+typealias Cost = Int
+
 typealias Vertex<T> = Pair<T, T>
 
 typealias Path<T> = List<T>
 
-data class CostMatrix<T>(val table : Map<Vertex<T>, Int>) {
+data class CostMatrix<T>(val table : Map<Vertex<T>, Cost>) {
     init { // make sure table is a squared one
         val rows = table.keys.map { it.first }
         val columns = table.keys.map { it.second }
@@ -23,5 +25,5 @@ data class CostMatrix<T>(val table : Map<Vertex<T>, Int>) {
      * @return The cost of moving in between nodes.
      * @throws NoSuchElementException If verice doesn't exist. This shouldn't happen.
      */
-    fun getCost(node1 : T, node2 : T) : Int = table.getValue(Pair(node1, node2))
+    fun getCost(node1 : T, node2 : T) : Cost = table.getValue(Pair(node1, node2))
 }
