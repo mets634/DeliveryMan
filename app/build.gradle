@@ -24,16 +24,21 @@ android {
 
 dependencies {
     implementation 'com.jakewharton.timber:timber:4.7.0'
+
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation"org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     implementation 'com.android.support:appcompat-v7:27.1.1'
-    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.1'
+
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support:support-annotations:27.1.1'
     androidTestImplementation 'com.android.support.test:rules:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     testImplementation "io.mockk:mockk:1.8"
+
     implementation 'com.google.code.gson:gson:2.8.4'
+
+    implementation "org.choco-solver:choco-solver:4.0.0"
 }
 
 buildscript {
