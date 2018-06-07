@@ -6,7 +6,7 @@ import com.example.mets634.deliveryman.model.product
 import org.junit.Test
 import org.junit.Assert
 
-abstract class TspSolverTest {
+abstract class TspSolverUndirectedTest {
     /**
      * A function to get best path. Each implementation will
      * solve this in a different way.
@@ -49,10 +49,13 @@ abstract class TspSolverTest {
 
         Assert.assertEquals(res, getPath(matrix, "a"))
     }
+}
 
+abstract class TspSolverDirectedTest : TspSolverUndirectedTest() {
     /**
      * Branch and Bound algorithm (both heuristics) should do well here.
      * Should adjust test size so that we can see the performance differences.
+     * 11 is Usually enough.
      */
     @Test
     fun branchAndBoundPerformanceTest() {
@@ -68,14 +71,14 @@ abstract class TspSolverTest {
 
         val distances =
                 keys
-                .map {
-                    if (it.first == it.second) // on horizontal
-                        0
-                    else if ((it.first + 1) % n == 1) // connected to
-                        1
-                    else // not connected to
-                        INF
-                }
+                        .map {
+                            if (it.first == it.second) // on horizontal
+                                0
+                            else if ((it.first + 1) % n == 1) // connected to
+                                1
+                            else // not connected to
+                                INF
+                        }
 
         val matrix = CostMatrix(keys.zip(distances).toMap())
 

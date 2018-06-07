@@ -37,8 +37,6 @@ dependencies {
     testImplementation "io.mockk:mockk:1.8"
 
     implementation 'com.google.code.gson:gson:2.8.4'
-
-    implementation "org.choco-solver:choco-solver:4.0.0"
 }
 
 buildscript {
