@@ -8,17 +8,16 @@ import com.example.mets634.deliveryman.model.distanceFinder.DistanceType
 import com.example.mets634.deliveryman.model.product
 import timber.log.Timber
 
+private const val BASE_URL = "http://maps.googleapis.com/maps/api/distancematrix/json?"
+private const val ORIGINS_PARAMETER = "origins"
+private const val DESTINATIONS_PARAMETER = "destinations"
+private const val MODE_PARAMETER = "mode"
+
 /**
  * Class that calculates distances using the Google Maps API.
  * @see "https://developers.google.com/maps/documentation/distance-matrix/intro"
  */
 object GoogleMapsDistanceFinder : DistanceFinder {
-
-    const val BASE_URL = "http://maps.googleapis.com/maps/api/distancematrix/json?"
-    const val ORIGINS_PARAMETER = "origins"
-    const val DESTINATIONS_PARAMETER = "destinations"
-    const val MODE_PARAMETER = "mode"
-
     /**
      * Implementation of GoogleMapsDistanceFinder.calcDistance
      * @see DistanceFinder.calcDistanceMatrix

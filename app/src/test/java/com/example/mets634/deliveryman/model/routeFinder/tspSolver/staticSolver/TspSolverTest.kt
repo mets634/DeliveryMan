@@ -59,7 +59,7 @@ abstract class TspSolverDirectedTest : TspSolverUndirectedTest() {
      */
     @Test
     fun branchAndBoundPerformanceTest() {
-        branchAndBoundPerformanceTest(11)
+        branchAndBoundPerformanceTest(7)
     }
 
     private fun branchAndBoundPerformanceTest(n : Int) {
